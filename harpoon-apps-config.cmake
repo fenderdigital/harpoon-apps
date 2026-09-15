@@ -13,10 +13,14 @@ if(DEFINED ${BOARD} AND ${BOARD} STREQUAL "mimx8mn_evk_a53_smp")
                              PRIVATE CONFIG_BOARD_MIMX8MN_EVK_A53=1)
 endif()
 
-target_compile_definitions(harpoon-apps PRIVATE MAX_PAYLOAD=4096)
+if(DEFINED CONFIG_AMP_MSG_MAX_PAYLOAD_SIZE)
+  target_compile_definitions(
+    harpoon-apps PRIVATE MAX_PAYLOAD=${CONFIG_AMP_MSG_MAX_PAYLOAD_SIZE})
 
-target_sources(harpoon-apps
-               PRIVATE ${harpoon_dir}/common/libs/mailbox/mailbox.c)
+  target_sources(harpoon-apps
+                PRIVATE ${harpoon_dir}/common/libs/mailbox/mailbox.c)
+endif()
+
 
 target_include_directories(harpoon-apps PRIVATE ${harpoon_dir}
                                                 ${harpoon_dir}/common/)
